@@ -21,9 +21,16 @@ const Header = ({
 }) => {
   return(
     <View style={HeaderStyle.container}>
-      <Text style={[HeaderStyle.text, {fontWeight: 'bold', fontSize: moderateScale(20), flex: 1}]}>
-        {headerText}
-      </Text>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <Text style={[HeaderStyle.text, {fontWeight: 'bold', fontSize: moderateScale(20), marginRight: moderateScale(8)}]}>
+          {headerText}
+        </Text>
+        <AntDesign 
+          name={"contacts"}
+          color={"#C9CCD5"}
+          size={25}
+        />
+      </View>
       <TouchableOpacity onPress={() => onRefreshPressed && onRefreshPressed()}>
         <IonIcons 
           name={"refresh"}
@@ -34,11 +41,6 @@ const Header = ({
           }}
         />
       </TouchableOpacity>
-      <AntDesign 
-        name={"contacts"}
-        color={"#C9CCD5"}
-        size={25}
-      />
     </View>
   )
 };

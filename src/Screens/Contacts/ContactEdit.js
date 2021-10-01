@@ -47,14 +47,17 @@ const TopComponent = ({
       }
 
       <UIInput 
+        label="First Name"
         value={firstName}
         onTextChange={(text) => handleTextChange && handleTextChange("firstName", text)}
       />
       <UIInput 
+        label="Last Name"
         value={lastName}
         onTextChange={(text) => handleTextChange && handleTextChange("lastName", text)}
       />
       <UIInput 
+        label="Age"
         value={age}
         onTextChange={(text) => handleTextChange && handleTextChange("age", text)}
       />
@@ -85,7 +88,6 @@ const ContactEdit = ({ navigation, route }) => {
 
   const [_, forceUpdate] = useReducer((x) => x + 1, 0);
   
-  // console.log("[ContactEdit] props: ", route);
 
   const id = route.params.id
   
@@ -131,7 +133,6 @@ const ContactEdit = ({ navigation, route }) => {
         setIsLoading(false)
       })
       .catch(err => {
-        console.log("[ContactEdit] getContactData err: ", err);
         setIsLoading(false)
         Toast.show(err.data.message, Toast.SHORT)
       })
@@ -147,14 +148,12 @@ const ContactEdit = ({ navigation, route }) => {
       photo: "N/A"
     })
       .then(res => {
-        console.log("[ContactEdit] editContact res: ", res);
         setLoadingEditing(false)
         forceUpdate()
         Toast.show(res.data.message, Toast.SHORT)
       })
       .catch(err => {
-        console.log("[ContactEdit] editContact err: ", err);
-        Toast.show(err.data.message, Toast.SHORT)
+        Toast.show(`${err}`, Toast.SHORT)
         setLoadingEditing(false)
       })
   }
@@ -164,9 +163,6 @@ const ContactEdit = ({ navigation, route }) => {
       <HeaderWithBackButton 
         headerTitle={"Edit Contact"}
         onBackButtonPress={() => {navigation.goBack()}}
-        onEditButtonPress={() => {
-          // TODO: go to edit contact screen
-        }}
       />
         {
           isLoading == true ? (
@@ -199,6 +195,7 @@ const ContactEdit = ({ navigation, route }) => {
             paddingHorizontal: moderateScale(16),
             paddingVertical: moderateScale(14),
             marginHorizontal: moderateScale(12),
+            marginVertical: moderateScale(16),
             borderRadius: 4,
             alignItems: 'center',
             justifyContent: 'center',

@@ -156,6 +156,7 @@ const ContactAdd = ({ navigation, route }) => {
             paddingHorizontal: moderateScale(16),
             paddingVertical: moderateScale(14),
             marginHorizontal: moderateScale(12),
+            marginVertical: moderateScale(16),
             borderRadius: 4,
             alignItems: 'center',
             justifyContent: 'center',

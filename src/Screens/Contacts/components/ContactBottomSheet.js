@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   actionSheet: {
-    backgroundColor: "#082032",
+    backgroundColor: "#fff",
   },
   userAvatar: {
     height: 40,
