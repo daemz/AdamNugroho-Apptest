@@ -83,7 +83,6 @@ const ContactAdd = ({ navigation, route }) => {
 
   const { navigate } = useNavigation()
   
-  // console.log("[ContactAdd] props: ", route);
 
   const id = route.params.id
   
@@ -110,13 +109,11 @@ const ContactAdd = ({ navigation, route }) => {
       photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkmiXxUZbmQ9S_RCQPjD39C6FZB5S3w76A-Q&usqp=CAU" // DEFAULT
     })
       .then(res => {
-        console.log("[ContactAdd] addNewContact res: ", res);
         setLoadingAdd(false)
         navigation.goBack()
         Toast.show(res.data.message, Toast.SHORT)
       })
       .catch(err => {
-        console.log("[ContactAdd] addNewContact err: ", err);
         Toast.show(`child "lastName" fails because ["lastName" must only contain alpha-numeric characters]`, Toast.SHORT)
         setLoadingAdd(false)
       })

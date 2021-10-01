@@ -14,7 +14,6 @@ const ContactCard = ({
     data,
     onPress
 }) => {
-  // console.log("[ContactCard] data: ", data);
   const [image, setImage] = useState({uri: data.photo})
   const [enableImage, setEnableImage] = useState(true)
   const [initialName, setInitialName] = useState(data.firstName.charAt(0).toUpperCase())

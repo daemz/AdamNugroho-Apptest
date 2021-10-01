@@ -19,7 +19,6 @@ const Header = ({
   props,
   onRefreshPressed
 }) => {
-  console.log("[Header] props: ", props);
   return(
     <View style={HeaderStyle.container}>
       <Text style={[HeaderStyle.text, {fontWeight: 'bold', fontSize: moderateScale(20), flex: 1}]}>
