@@ -60,6 +60,7 @@ const ContactHome = ({ navigation, route }) => {
   const [tabSelected, setTabSelected] = useState("all")
   const [searchText, setSearchText] = useState("")
   const [showFilteredContacts, setShowFilteredContacts] = useState(false)
+  const [filteredContacts, setFilteredContacts] = useState([])
   const [enableImage, setEnableImage] = useState(true)
   const [showAddButton, setShowAddButton] = useState(true)
 
@@ -73,38 +74,35 @@ const ContactHome = ({ navigation, route }) => {
   const contactRed = useSelector(state => state.ContactReducer)
   const dispatch = useDispatch()
 
-  console.log("[ContactHome] navigation: ", route);
-
   useEffect(() => {
     getContactsData()
   }, [isFocused])
 
   useEffect(() => {
-    // TODO: Activate search functional
     if(searchText === "") {
       setShowFilteredContacts(false)
     } else {
       setShowFilteredContacts(true)
+      // filter here
+      if(contactRed.contacts.length > 0) {
+        setFilteredContacts(contactRed.contacts.filter((item) => {
+          return item.firstName.toLowerCase().includes(searchText.toLowerCase()) || item.lastName.toLowerCase().includes(searchText.toLowerCase())
+        }))
+      }
     }
   }, [searchText])
 
   const getContactsData = () => {
-    // if(contactRed.contacts.length > 0) {
-    //   setIsLoading(false)
-    // } else {
-      getContacts()
+    getContacts()
       .then(res => {
         // save the result to redux
         dispatch(saveContact(res.data.data))
-        console.log("[ContactHome] contactRed: ", contactRed);
         setIsLoading(false)
         Toast.show(res.data.message, Toast.SHORT)
       })
       .catch(err => {
-        console.log("[ContactHome] getContacts err: ", err);
         Toast.show(err.data.message, Toast.SHORT)
       })
-    // }
   }
 
   const contactDelete = (id) => {
@@ -119,14 +117,12 @@ const ContactHome = ({ navigation, route }) => {
           onPress: () => {
             deleteContact(id)
             .then(res => {
-              console.log("[ContactHome] contactDelete res: ", res);
               Toast.show(res.data.message, Toast.SHORT)
               forceUpdate()
               closeBottomSheet()
             })
             .catch(err => {
-              console.log("[ContactHome] contactDelete err: ", err);
-              Toast.show("Oops, Contact Available", Toast.SHORT)
+              Toast.show("Oops, Contact Unavailable", Toast.SHORT)
             })
           }
         }
@@ -140,7 +136,6 @@ const ContactHome = ({ navigation, route }) => {
     onEditButtonPress
   }) => {
     const initialLetterName = data.firstName.charAt(0).toUpperCase()
-    console.log("data: ", data);
 
     return(
       <View>
@@ -252,13 +247,15 @@ const ContactHome = ({ navigation, route }) => {
       /> */}
       <Header 
         props={route}
-        onRefreshPressed={() => getContactsData()}
+        onRefreshPressed={() => {
+          getContactsData()
+          forceUpdate()
+        }}
       />
       <ScrollView
         onMomentumScrollBegin={(e) => setShowAddButton(false)}
         onMomentumScrollEnd={(e) => setShowAddButton(true)}
         onScrollBeginDrag={(e) => setShowAddButton(false)}
-        // onScrollEndDrag={(e) => console.log("[ContactHome] onScrollEndDrag: ", e)}
       >
         <SearchBar 
           value={searchText}
@@ -272,13 +269,14 @@ const ContactHome = ({ navigation, route }) => {
             />
           : (
             <FlatList 
-              data={contactRed.contacts}
+              data={showFilteredContacts == true ? filteredContacts : contactRed.contacts}
               renderItem={({item}) => (
                 <ContactCard
                   data={item}
                   onPress={id => {
                     console.log("[ContactHome] ContactCard onPress id: ", id)
                     setContactSelected(item)
+                    // setShowAddButton(true)
                     openBottomSheet()
                   }}
                 />
