@@ -123,7 +123,7 @@ export const FloatingButtonStyle = StyleSheet.create({
   floatingButton:{
     width: moderateScale(60),  
     height: moderateScale(60),   
-    borderRadius: 30,            
+    borderRadius: 100,            
     backgroundColor: '#3DB2FF',                                    
     position: 'absolute',                                          
     bottom: moderateScale(10),                                                    

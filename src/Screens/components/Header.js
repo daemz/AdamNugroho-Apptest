@@ -86,6 +86,7 @@ const SearchBar = ({
         placeholderTextColor={"#C9CCD5"}
         onChangeText={(text) => onChangeText(text)}
         style={{
+          width: "100%",
           color: "#fff"
         }}
       />
@@ -123,12 +124,12 @@ const HeaderWithBackButton = ({
             </Text>
           </View>
       }
-      {
+      {/* {
         headerTitle !== null &&
           <View style={{
             flex: 1,
           }}/>
-      }
+      } */}
     </View>
   )
 }
