@@ -106,7 +106,8 @@ const ContactAdd = ({ navigation, route }) => {
       firstName: firstName,
       lastName: lastName,
       age: age,
-      photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkmiXxUZbmQ9S_RCQPjD39C6FZB5S3w76A-Q&usqp=CAU" // DEFAULT
+      // photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkmiXxUZbmQ9S_RCQPjD39C6FZB5S3w76A-Q&usqp=CAU" // DEFAULT
+      photo: "N/A"
     })
       .then(res => {
         setLoadingAdd(false)
