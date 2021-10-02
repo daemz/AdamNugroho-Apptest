@@ -118,8 +118,11 @@ const ContactHome = ({ navigation, route }) => {
             deleteContact(id)
             .then(res => {
               Toast.show(res.data.message, Toast.SHORT)
-              forceUpdate()
               closeBottomSheet()
+              setTimeout(() => {
+                getContactsData()
+                forceUpdate()
+              }, 500);
             })
             .catch(err => {
               Toast.show("Oops, Contact Unavailable", Toast.SHORT)
