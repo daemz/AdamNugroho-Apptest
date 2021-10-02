@@ -84,7 +84,7 @@ const ContactEdit = ({ navigation, route }) => {
   const [enableImage, setEnableImage] = useState(true)
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
-  const [age, setAge] = useState(0)
+  const [age, setAge] = useState("")
 
   const [_, forceUpdate] = useReducer((x) => x + 1, 0);
   
@@ -138,24 +138,36 @@ const ContactEdit = ({ navigation, route }) => {
       })
   }
 
+  const checkSubmit = () => {
+    if (firstName != "" && lastName != "" && age != "") {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const submitEdit = () => {
-    setLoadingEditing(true)
-    editContact({
-      id: contactData.id,
-      firstName: firstName,
-      lastName: lastName,
-      age: age,
-      photo: "N/A"
-    })
-      .then(res => {
-        setLoadingEditing(false)
-        forceUpdate()
-        Toast.show(res.data.message, Toast.SHORT)
+    if(checkSubmit() == true) {
+      setLoadingEditing(true)
+      editContact({
+        id: contactData.id,
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+        photo: "N/A"
       })
-      .catch(err => {
-        Toast.show(`${err}`, Toast.SHORT)
-        setLoadingEditing(false)
-      })
+        .then(res => {
+          setLoadingEditing(false)
+          forceUpdate()
+          Toast.show(res.data.message, Toast.SHORT)
+        })
+        .catch(err => {
+          Toast.show(`${err}`, Toast.SHORT)
+          setLoadingEditing(false)
+        })
+    } else {
+      Toast.show("Please fill in all the form before proceed")
+    }
   }
 
   return (

@@ -100,24 +100,36 @@ const ContactAdd = ({ navigation, route }) => {
     }
   }
 
+  const checkSubmit = () => {
+    if (firstName != "" && lastName != "" && age != "") {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const submitAdd = () => {
-    setLoadingAdd(true)
-    addNewContact({
-      firstName: firstName,
-      lastName: lastName,
-      age: age,
-      // photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkmiXxUZbmQ9S_RCQPjD39C6FZB5S3w76A-Q&usqp=CAU" // DEFAULT
-      photo: "N/A"
-    })
-      .then(res => {
-        setLoadingAdd(false)
-        navigation.goBack()
-        Toast.show(res.data.message, Toast.SHORT)
+    if (checkSubmit() == true){
+      setLoadingAdd(true)
+      addNewContact({
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+        // photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkmiXxUZbmQ9S_RCQPjD39C6FZB5S3w76A-Q&usqp=CAU" // DEFAULT
+        photo: "N/A"
       })
-      .catch(err => {
-        Toast.show(`child "lastName" fails because ["lastName" must only contain alpha-numeric characters]`, Toast.SHORT)
-        setLoadingAdd(false)
-      })
+        .then(res => {
+          setLoadingAdd(false)
+          navigation.goBack()
+          Toast.show(res.data.message, Toast.SHORT)
+        })
+        .catch(err => {
+          Toast.show(`child "lastName" fails because ["lastName" must only contain alpha-numeric characters]`, Toast.SHORT)
+          setLoadingAdd(false)
+        })
+    } else {
+      Toast.show("Please fill in all the form before proceed")
+    }
   }
 
   return (
