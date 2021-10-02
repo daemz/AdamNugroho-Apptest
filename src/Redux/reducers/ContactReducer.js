@@ -13,8 +13,7 @@ const ContactReducer = (state = CONTACTS_INITIAL_STATE, action) => {
 
       return{
         ...state,
-        // contacts: sortedPayload
-        contacts: action.payload
+        contacts: sortedPayload
       }
   
       default:
