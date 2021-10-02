@@ -55,7 +55,6 @@ const FloatingAddButton = ({
 
 const ContactHome = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true)
-  const [contacts, setContact] = useState(null)
   const [contactSelected, setContactSelected] = useState({})
   const [tabSelected, setTabSelected] = useState("all")
   const [searchText, setSearchText] = useState("")
@@ -71,7 +70,7 @@ const ContactHome = ({ navigation, route }) => {
   // to determine if the screen is focused
   const isFocused = useIsFocused()
 
-  const contactRed = useSelector(state => state.ContactReducer)
+  const { contacts } = useSelector(state => state.ContactReducer)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -84,8 +83,8 @@ const ContactHome = ({ navigation, route }) => {
     } else {
       setShowFilteredContacts(true)
       // filter here
-      if(contactRed.contacts.length > 0) {
-        setFilteredContacts(contactRed.contacts.filter((item) => {
+      if(contacts.length > 0) {
+        setFilteredContacts(contacts.contacts.filter((item) => {
           return item.firstName.toLowerCase().includes(searchText.toLowerCase()) || item.lastName.toLowerCase().includes(searchText.toLowerCase())
         }))
       }
@@ -194,7 +193,7 @@ const ContactHome = ({ navigation, route }) => {
             </View>
             <View style={{marginTop: moderateScale(16)}}>
               <Text style={[{fontWeight: 'bold', color: "#000"}]}>
-                {`Age: ${data.age}`}
+                {`${data.age} Years Old`}
               </Text>
             </View>
           </View>
@@ -272,7 +271,7 @@ const ContactHome = ({ navigation, route }) => {
             />
           : (
             <FlatList 
-              data={showFilteredContacts == true ? filteredContacts : contactRed.contacts}
+              data={showFilteredContacts == true ? filteredContacts : contacts}
               renderItem={({item}) => (
                 <ContactCard
                   data={item}
