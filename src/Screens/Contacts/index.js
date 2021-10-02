@@ -34,7 +34,7 @@ import { deleteContact, getContacts } from '../../Utils/ServiceUtils';
 import { saveContact } from '../../Redux/Actions/ContactActions';
 import { ContactCardStyle, FloatingButtonStyle, GlobalStyle, HeaderStyle, HeaderWithBackButtonStyle } from '../../components/GlobalStyle';
 import {Header, TabController, SearchBar} from '../components/Header';
-import ContactCard from './components/ContactCard';
+// import ContactCard from './components/ContactCard';
 import ContactBottomSheet from './components/ContactBottomSheet';
 import { moderateScale } from 'react-native-size-matters';
 import AddContactButton from './components/AddContactButton';
@@ -84,7 +84,7 @@ const ContactHome = ({ navigation, route }) => {
       setShowFilteredContacts(true)
       // filter here
       if(contacts.length > 0) {
-        setFilteredContacts(contacts.contacts.filter((item) => {
+        setFilteredContacts(contacts.filter((item) => {
           return item.firstName.toLowerCase().includes(searchText.toLowerCase()) || item.lastName.toLowerCase().includes(searchText.toLowerCase())
         }))
       }
@@ -131,6 +131,50 @@ const ContactHome = ({ navigation, route }) => {
       ]
     )
   }
+
+  const ContactCard = ({
+    data,
+    onPress
+}) => {
+  const [image, setImage] = useState({uri: data.photo})
+  const [enableImageCard, setEnableImageCard] = useState(true)
+  const [initialName, setInitialName] = useState(data.firstName.charAt(0).toUpperCase())
+
+  return(
+    <TouchableOpacity onPress={() => onPress && onPress(data.id)}>
+      <View style={ContactCardStyle.cardContainer}>
+          {
+            enableImageCard === true ? (
+              <Image 
+                source={image}
+                style={GlobalStyle.roundedImage}
+                onError={() => {
+                  // setImage(require("../../../resource/image/default_profile_image.png"))
+                  setEnableImageCard(false)
+                }}
+              />
+            )
+            : (
+              <View style={ContactCardStyle.initialLetterNameStyle}>
+                <Text style={{color: "#C9CCD5", fontWeight: 'bold', fontSize: moderateScale(20)}}>
+                  {initialName}
+                </Text>
+              </View>
+            )
+          }
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={HeaderStyle.text}>
+              {`${data.firstName} ${data.lastName}`}
+            </Text>
+            {/* <Text style={[HeaderStyle.text, {color: "#C9CCD5"}]}>
+              {`${data.age} y'o`}
+            </Text> */}
+
+          </View>
+      </View>
+    </TouchableOpacity>
+  )
+};
 
   const BottomSheetContent = ({
     data,
@@ -255,9 +299,9 @@ const ContactHome = ({ navigation, route }) => {
         }}
       />
       <ScrollView
-        onMomentumScrollBegin={(e) => setShowAddButton(false)}
-        onMomentumScrollEnd={(e) => setShowAddButton(true)}
-        onScrollBeginDrag={(e) => setShowAddButton(false)}
+        // onMomentumScrollBegin={(e) => setShowAddButton(false)}
+        // onMomentumScrollEnd={(e) => setShowAddButton(true)}
+        // onScrollBeginDrag={(e) => setShowAddButton(false)}
       >
         <SearchBar 
           value={searchText}
