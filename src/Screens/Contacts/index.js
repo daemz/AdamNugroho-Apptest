@@ -74,7 +74,9 @@ const ContactHome = ({ navigation, route }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getContactsData()
+    if(isFocused === true) {
+      getContactsData()
+    }
   }, [isFocused])
 
   useEffect(() => {
@@ -184,9 +186,14 @@ const ContactHome = ({ navigation, route }) => {
     const initialLetterName = data.firstName.charAt(0).toUpperCase()
 
     return(
-      <View>
+      <View style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: 'red',
+        // paddingBottom: moderateScale(100)
+      }}>
         <View style={[[HeaderStyle.container, 
-          {alignItems: 'center', height: moderateScale(80)}
+          {alignItems: 'center', height: heightPercentageToDP(10)}
         ]]}>
           <TouchableOpacity onPress={() => onDeleteButtonPress && onDeleteButtonPress(data.id)}>
             <MaterialCommunityIcons
@@ -205,42 +212,46 @@ const ContactHome = ({ navigation, route }) => {
               size={moderateScale(25)}
             />
           </TouchableOpacity>
-          </View>
+        </View>
 
-          <View style={{
-            // width: '100%',
-            paddingVertical: moderateScale(10),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            {
-              enableImage == true ? (
-                <Image 
-                  source={{uri: data.photo}}
-                  style={[GlobalStyle.roundedImage, {width: moderateScale(100), height: moderateScale(100)}]}
-                  onError={(err) => {
-                    setEnableImage(false)
-                  }}
-                />
-              ) : (
-                <View style={[ContactCardStyle.initialLetterNameStyle, {width: moderateScale(70), height: moderateScale(70)}]}> 
-                  <Text style={{color: "#C9CCD5", fontWeight: 'bold', fontSize: moderateScale(20)}}>
-                    {initialLetterName}
-                  </Text>
-                </View>
-              )
-            }
-            <View style={{marginTop: moderateScale(16)}}>
-              <Text style={[{fontWeight: 'bold', color: "#000"}]}>
-                {`${data.firstName} ${data.lastName}`}
-              </Text>
-            </View>
-            <View style={{marginTop: moderateScale(16)}}>
-              <Text style={[{fontWeight: 'bold', color: "#000"}]}>
-                {`${data.age} Years Old`}
-              </Text>
-            </View>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: heightPercentageToDP(25)
+        }}>
+          {
+            enableImage == true ? (
+              <Image 
+                source={{uri: data.photo}}
+                style={[{
+                  resizeMode: 'cover',
+                  borderRadius: 100,
+                  width: moderateScale(100), 
+                  height: moderateScale(100), 
+                }]}
+                onError={(err) => {
+                  setEnableImage(false)
+                }}
+              />
+            ) : (
+              <View style={[ContactCardStyle.initialLetterNameStyle, {width: moderateScale(70), height: moderateScale(70), marginRight: moderateScale(0)}]}> 
+                <Text style={{color: "#C9CCD5", fontWeight: 'bold', fontSize: moderateScale(20)}}>
+                  {initialLetterName}
+                </Text>
+              </View>
+            )
+          }
+          <View style={{marginTop: moderateScale(16)}}>
+            <Text style={[{fontWeight: 'bold', color: "#000"}]}>
+              {`${data.firstName} ${data.lastName}`}
+            </Text>
           </View>
+          <View style={{marginTop: moderateScale(16)}}>
+            <Text style={[{fontWeight: 'bold', color: "#000"}]}>
+              {`${data.age} Years Old`}
+            </Text>
+          </View>
+        </View>
       </View>
     )
   }
@@ -265,7 +276,7 @@ const ContactHome = ({ navigation, route }) => {
         setEnableImage(true)
       }}
       isFullScreen={true}
-      style={{ height: heightPercentageToDP('40%') }}
+      style={{ height: heightPercentageToDP('35%') }}
     >
       <BottomSheetContent 
         data={contactSelected}
@@ -299,6 +310,7 @@ const ContactHome = ({ navigation, route }) => {
         }}
       />
       <ScrollView
+        nestedScrollEnabled
         // onMomentumScrollBegin={(e) => setShowAddButton(false)}
         // onMomentumScrollEnd={(e) => setShowAddButton(true)}
         // onScrollBeginDrag={(e) => setShowAddButton(false)}
