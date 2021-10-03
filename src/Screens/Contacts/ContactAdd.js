@@ -124,7 +124,7 @@ const ContactAdd = ({ navigation, route }) => {
           Toast.show(res.data.message, Toast.SHORT)
         })
         .catch(err => {
-          Toast.show(`child "lastName" fails because ["lastName" must only contain alpha-numeric characters]`, Toast.SHORT)
+          Toast.show(`Failed to add contact`, Toast.SHORT)
           setLoadingAdd(false)
         })
     } else {
