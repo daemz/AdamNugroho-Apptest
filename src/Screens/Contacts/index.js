@@ -325,7 +325,22 @@ const ContactHome = ({ navigation, route }) => {
               size={"large"}
               color={"#C9CCD5"}
             />
-          : (
+          : contacts.length == 0 ? (
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}> 
+              <MaterialCommunityIcons 
+                name="contacts"
+                color={"#C9CCD5"}
+                size={moderateScale(50)}
+              />
+              <Text style={[GlobalStyle.text, {color: "#C9CCD5", marginTop: moderateScale(20)}]}>
+                {`Contact is empty, you can add a new one by pressing a blue button on the bottom right of the screen`}
+              </Text>
+            </View>
+          ) : (
             <FlatList 
               data={showFilteredContacts == true ? filteredContacts : contacts}
               renderItem={({item}) => (
